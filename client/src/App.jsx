@@ -6,14 +6,15 @@ import { Box,
   Stack,
   TextField,
   Typography} from "@mui/material";
-const App = () => {
 
+const App = () => {
   const socket = useMemo(
     () =>
-      io("http://localhost:3000"),
+      io("http://localhost:3000", {
+        withCredentials: true,
+      }),
     []
   );
-
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("");
   const [socketID, setSocketId] = useState("");
@@ -46,9 +47,9 @@ const App = () => {
       setMessages((messages) => [...messages, data]);
     });
 
-    // socket.on("welcome",(s)=>{
-    //   console.log(s)
-    // })
+    socket.on("welcome",(s)=>{
+      console.log(s)
+    })
 
     return () => {
       socket.disconnect();
